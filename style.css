@@ -21,6 +21,6 @@ main { width:min(1040px, calc(100% - 80px)); margin:auto; }
 @media(max-width:700px) { main { width:calc(100% - 36px); }.countdown { padding-top:27px; }.clock { gap:14px; }.clock>div { min-width:70px; }.clock span { font-size:53px; }.clock b { font-size:32px; }.map-wrap { padding:0 4px; margin:12px auto 0; }.map-bottom { padding:13px 15px; flex-direction:column; align-items:flex-start; gap:9px; font-size:9px; }.map-key { font-size:8px; }.itinerary { grid-template-columns:1fr; gap:8px; margin-top:12px; }.stop { padding:17px 14px; gap:14px; align-items:flex-start; }.stop-date { font-size:7px; margin-bottom:6px; }.stop-state { left:auto; right:14px; bottom:auto; top:20px; font-size:6px; }h3 { font-size:13px; } }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; } }
 
-.preview-heading { margin:0; padding:7px; }
+
 
 .middel-label { font-family:var(--serif); font-size:33px; font-style:italic; fill:#9b896f; }
