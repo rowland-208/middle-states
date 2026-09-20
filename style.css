@@ -24,3 +24,30 @@ main { width:min(1040px, calc(100% - 80px)); margin:auto; }
 
 
 .middel-label { font-family:var(--serif); font-size:33px; font-style:italic; fill:#9b896f; }
+
+.map-wrap { position:relative; }
+.fold-toggle, .bounce-target { cursor:pointer; -webkit-tap-highlight-color:transparent; outline:none; }
+.fold-hit-area { fill:transparent; stroke:none; pointer-events:all; }
+.fold-toggle:focus-visible .fold-hit-area { stroke:var(--rose); stroke-width:2; }
+.bounce-target:focus-visible { outline:2px solid var(--rose); outline-offset:5px; }
+.middel-states { animation:middle-drift 5s ease-in-out infinite; transform-box:fill-box; transform-origin:center; }
+@keyframes middle-drift { 0%,100% { translate:-2px 0; rotate:-.6deg; } 50% { translate:3px -4px; rotate:.7deg; } }
+.bounce-target { transform-box:fill-box; transform-origin:50% 90%; }
+.bounce-target.bouncing { animation:character-bounce .65s ease-in-out; }
+@keyframes character-bounce {
+  0%,100% { translate:0 0; scale:1; }
+  15% { translate:0 3px; scale:1.08 .9; }
+  40% { translate:0 -18px; scale:.95 1.07; }
+  65% { translate:0 0; scale:1.07 .93; }
+  82% { translate:0 -5px; scale:1; }
+}
+
+.traveler-plane { display:none; }
+.in-flight .traveler-plane { display:block; }
+.in-flight .traveler-card, .in-flight .me-label { display:none; }
+.in-flight #traveler-emoji { transform:translate(0, 21px); }
+.preview-options { flex-wrap:wrap; }
+
+.fold-hint { fill:var(--rose); font:12px 'DM Sans',sans-serif; opacity:0; pointer-events:none; transition:opacity .2s; }
+.fold-toggle:hover .fold-hint, .fold-toggle:focus-visible .fold-hint { opacity:1; }
+.folded .fold-hint { display:none; }

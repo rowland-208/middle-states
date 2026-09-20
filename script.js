@@ -1,7 +1,7 @@
 const trip = globalThis.Trip;
 let preview = 'live';
-let lastStop;
-const previews = { nc: trip.chicagoArrival - 86400000, chicago: trip.chicagoArrival, ca: trip.reunion };
+let lastPhase;
+const previews = { nc: trip.chicagoArrival - 86400000, chicago: trip.chicagoArrival, ca: trip.reunion, flightChicago: (trip.chicagoDeparture + trip.chicagoArrival) / 2, flightCalifornia: (trip.californiaDeparture + trip.californiaArrival) / 2 };
 const statuses = { nc: 'Currently in Wilmington · thinking of you', chicago: 'Currently in Chicago · one stop closer', ca: 'Finally together · delivery complete ♡' };
 
 function render() {
@@ -10,23 +10,27 @@ function render() {
     document.getElementById(unit).textContent = String(state[unit]).padStart(2, '0');
   }
   document.querySelector('.clock').setAttribute('aria-label', `${state.hours} hours, ${state.minutes} minutes, ${state.seconds} seconds until we are together`);
-  document.body.classList.toggle('reunited', state.stop === 'ca');
-  if (state.stop !== lastStop) {
-    const [x, y] = trip.points[state.stop];
-    document.getElementById('traveler').setAttribute('transform', `translate(${state.stop === 'ca' ? x + 57 : x} ${y})`);
-    document.getElementById('traveler-emoji').textContent = state.stop === 'ca' ? '🥰' : '🥹';
-    document.getElementById('location-status').innerHTML = `<span class="status-dot"></span>${statuses[state.stop]}`;
+  globalThis.currentTripState = state;
+  const [x, y] = state.position;
+  document.getElementById('traveler').setAttribute('transform', `translate(${!state.flight && state.stop === 'ca' ? x + 57 : x} ${y})`);
+  document.getElementById('traveler').classList.toggle('in-flight', Boolean(state.flight));
+  document.body.classList.toggle('reunited', state.reunited);
+  const phase = state.flight ? `flight-${state.flight.to}` : state.reunited ? 'together' : state.stop;
+  if (phase !== lastPhase) {
+    document.getElementById('traveler-emoji').textContent = state.reunited ? '🥰' : '🥹';
+    document.getElementById('location-status').innerHTML = `<span class="status-dot"></span>${state.flight ? (state.flight.to === 'chicago' ? 'On the way to Chicago ✈' : 'On the way to California ✈') : state.stop === 'ca' && !state.reunited ? 'Landed in California · on my way to you' : statuses[state.stop]}`;
     const stops = ['nc', 'chicago', 'ca'];
     for (const [index, stop] of stops.entries()) {
       const element = document.getElementById(`stop-${stop}`);
-      element.classList.toggle('active', state.stop === stop);
+      element.classList.toggle('active', !state.flight && state.stop === stop);
       element.classList.toggle('complete', index < stops.indexOf(state.stop));
-      element.querySelector('.stop-state').textContent = state.stop === stop ? (stop === 'ca' ? 'TOGETHER' : 'HERE NOW') : index < stops.indexOf(state.stop) ? 'BEEN THERE ✓' : stop === 'ca' ? 'THE DESTINATION' : 'UP NEXT';
+      element.querySelector('.stop-state').textContent = state.flight && state.flight.to === stop ? 'ON THE WAY' : state.stop === stop ? (state.flight ? 'DEPARTED' : stop === 'ca' && state.reunited ? 'TOGETHER' : 'HERE NOW') : index < stops.indexOf(state.stop) ? 'BEEN THERE ✓' : stop === 'ca' ? 'THE DESTINATION' : 'UP NEXT';
     }
     document.getElementById('route-nc').classList.toggle('traveled', state.stop !== 'nc');
     document.getElementById('route-ca').classList.toggle('traveled', state.stop === 'ca');
-    lastStop = state.stop;
+    lastPhase = phase;
   }
+  window.dispatchEvent(new CustomEvent('trip-position-change', { detail: state }));
 }
 
 document.querySelectorAll('[data-preview]').forEach(button => {

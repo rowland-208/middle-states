@@ -2,9 +2,17 @@
 
 A small, responsive countdown postcard. Plain HTML, CSS, and JavaScript; no build step or API keys.
 
-The countdown shows **total hours**, minutes, and seconds until September 25, 2026 at 6 PM Pacific (September 26 at 01:00 UTC). The scheduled location changes from Wilmington, NC to Chicago on September 21 at 2 PM Eastern (1 PM Central), then to Palo Alto, CA at the reunion time. These are scheduled stops, not GPS tracking; no flight departure times were provided. City markers use approximate geographic coordinates.
+The countdown shows **total hours**, minutes, and seconds until September 25, 2026 at 6 PM Pacific (September 26 at 01:00 UTC).
 
-Use “A little peek at the trip” at the bottom to preview each location. Choose **Live** to return to the current time. Preview resets on refresh. The countdown stops at zero after arrival.
+- Monday, September 21: fly Wilmington → Chicago from 1–3 PM Eastern.
+- Friday, September 25: fly Chicago → California from 1:30 PM Central to 4:20 PM Pacific.
+- Friday, September 25: reunion at 6 PM Pacific, after landing.
+
+The smiley rides a plane along each illustrated route in proportion to elapsed flight time. These are scheduled positions, not GPS tracking. City markers use approximate geographic coordinates.
+
+Use the buttons at the bottom to preview stops or either flight's midpoint. Choose **Live** to return to the current time. Preview resets on refresh. The countdown stops at zero at the reunion.
+
+Click the middle of the map to fold away the middle states; click the accordion to unfold. Click the bag or smiley to bounce it. Keyboard controls and reduced-motion preferences are supported.
 
 ## Run locally
 
