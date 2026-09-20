@@ -33,9 +33,6 @@ document.querySelectorAll('[data-preview]').forEach(button => {
   button.addEventListener('click', () => {
     preview = button.dataset.preview;
     document.querySelectorAll('[data-preview]').forEach(option => option.setAttribute('aria-pressed', String(option === button)));
-    document.getElementById('preview-note').textContent = preview === 'live'
-      ? 'Following the trip schedule. All times update automatically.'
-      : 'Preview mode · showing a moment in the trip. Choose Live to return to now.';
     document.body.classList.toggle('previewing', preview !== 'live');
     render();
   });
